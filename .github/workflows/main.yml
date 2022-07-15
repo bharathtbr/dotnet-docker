@@ -30,9 +30,9 @@ jobs:
         with:
           image: bharatht08/apsnetapp6
           tags: v1, latest
-          registry: registry-url.io
+          registry: hub.docker.com
           dockerfile: Dockerfile.alpine-x64
-          directory: samples/dotnetapp/
+          directory: ./samples/dotnetapp/
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
