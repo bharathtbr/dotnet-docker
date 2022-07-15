@@ -40,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./samples/complexapp/Dockerfile
+          file: ./Dockerfile.alpine-x64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:latest
 
