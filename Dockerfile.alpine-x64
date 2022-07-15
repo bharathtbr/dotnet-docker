@@ -4,11 +4,12 @@ WORKDIR /source
 
 # copy csproj and restore as distinct layers
 COPY *.sln .
-COPY aspnetapp/*.csproj ./aspnetapp/
-RUN dotnet restore -r linux-musl-x64
+COPY ["samples/aspnetapp/aspnetapp/*.csproj", "aspnetapp/"]
+RUN dotnet restore "aspnetapp/aspnetapp.csproj" -r linux-musl-x64
+#RUN dotnet restore -r linux-musl-x64
 
 # copy everything else and build app
-COPY aspnetapp/. ./aspnetapp/
+COPY samples/aspnetapp/aspnetapp/. ./aspnetapp/
 WORKDIR /source/aspnetapp
 RUN dotnet publish -c release -o /app -r linux-musl-x64 --self-contained false --no-restore
 
