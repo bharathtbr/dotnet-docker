@@ -46,4 +46,25 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}  
+        
+      - name: Checkout Target Repository
+        uses: actions/checkout@v2
+        with:
+          repository: bharathtbr/coverage
+          path: infrastructure
+          token: ${{ secrets.PAT_TOKEN }} 
+
+      - name: Update Image Version in the related HelmChart values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'argocd-app-config-main/dev/deployment.yaml'
+          propertyPath: 'spec.template.spec.containers.image'
+          value: bharatht08/apsnetapp6:latest
+          repository: bharathtbr/coverage
+          branch: mainlatest
+          targetBranch: main
+          createPR: true
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.PAT_TOKEN }}
+          workDir: _work
 
