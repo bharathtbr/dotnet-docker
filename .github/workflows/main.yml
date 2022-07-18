@@ -70,6 +70,16 @@ jobs:
       
       - name: Make changes to pull request
         run: date  > report.txt
+      
+      - name: copy file from template to main dev
+        run: |
+            cp "argocd-app-config-main/Templates/deployment.yaml" "argocd-app-config-main/dev/deployment.yaml"
+            
+      - name: Replace image in config
+        uses: datamonsters/replace-action@v2
+        with:
+         files: argocd-app-config-main/dev/deployment.yaml
+         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'  
 
       - name: Create Pull Request
         id: cpr
