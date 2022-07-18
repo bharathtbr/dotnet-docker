@@ -29,23 +29,9 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}     
+          password: ${{ secrets.DOCKER_PASSWORD }} 
         
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.alpine-x64
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:latest
-
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}  
+      
         
       - name: Checkout Target Repository
         uses: actions/checkout@v3
@@ -54,7 +40,7 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }} 
           
       - name: Create release branch
-        run: git checkout -b test-master-1      
+        run: git checkout -b release/v${{ github.event.inputs.versionName }}     
       
       - name: copy file from template to main dev
         run: |
@@ -69,14 +55,18 @@ jobs:
       - run: |
           git add .
           git commit -m "generated"
-          git push origin test-master-1
+          git push origin release/v${{ github.event.inputs.versionName }}
          
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+      - name: Create pull request into main
+        uses: thomaseizinger/create-pull-request@1.0.0
         with:
-          commit-message: update changelog
-          title: Update Changelog
-          body: Update changelog to reflect release changes
-          branch: test-master-1
-          base: main
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         head: release/v${{ github.event.inputs.versionName }}
+         base: main
+         title: v${{ github.event.inputs.versionName }} into main
+         reviewers: ${{ github.event.issue.user.login }}
+         body: |
+           Hi!
+           This PR was created in response workflow running.
+           I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
    
