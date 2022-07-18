@@ -54,7 +54,7 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }} 
           
       - name: Create release branch
-        run: git checkout -b test-master      
+        run: git checkout -b test-master-1      
       
       - name: copy file from template to main dev
         run: |
@@ -69,7 +69,7 @@ jobs:
       - run: |
           git add .
           git commit -m "generated"
-          git push origin test-master
+          git push origin test-master-1
          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
@@ -77,6 +77,6 @@ jobs:
           commit-message: update changelog
           title: Update Changelog
           body: Update changelog to reflect release changes
-          branch: test-master
+          branch: test-master-1
           base: main
    
