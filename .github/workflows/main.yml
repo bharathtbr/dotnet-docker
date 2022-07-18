@@ -48,10 +48,11 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}  
         
       - name: Checkout Target Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: bharathtbr/coverage
           token: ${{ secrets.PAT_TOKEN }} 
+          ref: 'test-master'
           
       - name: Replace image in config
         uses: datamonsters/replace-action@v2
@@ -59,11 +60,16 @@ jobs:
          files: argocd-app-config-main/dev/deployment.yaml
          replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
          
+      - run: |
+          git add .
+          git commit -m "generated"
+          git push
+         
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: update changelog
           title: Update Changelog
           body: Update changelog to reflect release changes
-          branch: update-changelog
+          branch: test-master
           base: main
