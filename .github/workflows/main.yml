@@ -59,18 +59,16 @@ jobs:
         with:
          files: infrastructure/argocd-app-config-main/dev/deployment.yaml
          replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
-        
-      - name: Update Image Version in the related HelmChart values.yaml
-        uses: fjogeleit/yaml-update-action@main
+         
+      - name: Create pull request
+        uses: paygoc6/action-pull-request-another-repo@v1.0.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          valueFile: 'file.yaml'
-          propertyPath: 'name.version'
-          value: bharatht08/apsnetapp6:latest
-          repository: bharathtbr/coverage
-          branch: mainlatest
-          targetBranch: main
-          createPR: true
-          message: 'Update Image Version to bharath'
-          token: ${{ secrets.PAT_TOKEN }}
-          workDir: infrastructure   
-
+          source_folder: 'documentation'
+          destination_repo: 'bharathtbr/coverage'
+          destination_folder: 'documentation'
+          destination_base_branch: 'main'
+          destination_head_branch: 'main'
+          user_email: 'bharath.reddy@coupa.com'
+          user_name: 'bharathtbr'
