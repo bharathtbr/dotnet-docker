@@ -52,19 +52,9 @@ jobs:
         with:
           repository: bharathtbr/coverage
           token: ${{ secrets.PAT_TOKEN }} 
-      - name: create new branch
-        uses: peterjgrainger/action-create-branch@v2.2.0
-        env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-         branch: 'test-master'
-         
-      - name: Checkout Target Repository
-        uses: actions/checkout@v3
-        with:
-          repository: bharathtbr/coverage
-          token: ${{ secrets.PAT_TOKEN }} 
-          ref: 'test-master'
+          
+      - name: Create release branch
+        run: git checkout -b test-master      
           
       - name: Replace image in config
         uses: datamonsters/replace-action@v2
@@ -75,7 +65,7 @@ jobs:
       - run: |
           git add .
           git commit -m "generated"
-          git push
+          git push origin test-master
          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
