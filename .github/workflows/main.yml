@@ -60,18 +60,4 @@ jobs:
         uses: datamonsters/replace-action@v2
         with:
          files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
-         
-      - run: |
-          git add .
-          git commit -m "generated"
-          git push origin test-master
-         
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: update changelog
-          title: Update Changelog
-          body: Update changelog to reflect release changes
-          branch: test-master
-          base: main
+         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'    
