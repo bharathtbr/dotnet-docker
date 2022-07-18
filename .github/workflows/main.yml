@@ -60,4 +60,4 @@ jobs:
         uses: datamonsters/replace-action@v2
         with:
          files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'    
+         replacements: '$image=bharatht08/apsnetapp6:latest'    
