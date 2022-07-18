@@ -51,24 +51,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: bharathtbr/coverage
-          path: infrastructure
           token: ${{ secrets.PAT_TOKEN }} 
           
       - name: Replace image in config
         uses: datamonsters/replace-action@v2
         with:
-         files: infrastructure/argocd-app-config-main/dev/deployment.yaml
+         files: argocd-app-config-main/dev/deployment.yaml
          replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
          
-      - name: Create pull request
-        uses: paygoc6/action-pull-request-another-repo@v1.0.1
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.PAT_TOKEN }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
         with:
-          source_folder: 'documentation'
-          destination_repo: 'bharathtbr/coverage'
-          destination_folder: 'documentation'
-          destination_base_branch: 'main'
-          destination_head_branch: 'main'
-          user_email: 'bharath.reddy@coupa.com'
-          user_name: 'bharathtbr'
+          commit-message: update changelog
+          title: Update Changelog
+          body: Update changelog to reflect release changes
+          branch: update-changelog
+          base: main
