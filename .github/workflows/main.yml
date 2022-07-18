@@ -70,7 +70,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: example-patches
-          base: Main
+          base: main
           delete-branch: true
           title: '[Example] Update report'
           body: |
