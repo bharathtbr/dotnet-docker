@@ -55,12 +55,12 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }} 
           
       - name: Replace image in config
-      uses: ./.github/actions/replace
-      with:
-        files: infrastructure/argocd-app-config-main/dev/deployment.yaml
-        replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
+        uses: ./.github/actions/replace
+        with:
+         files: infrastructure/argocd-app-config-main/dev/deployment.yaml
+         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
         
-     - name: Create Pull Request
+      - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
