@@ -53,7 +53,13 @@ jobs:
         uses: datamonsters/replace-action@v2
         with:
          files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'   
+         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'  
+         
+      - name: Git commit
+        run: |
+            git add .
+            git commit -m "generated"
+            git push origin release/v${{ github.event.inputs.versionName }}
      
           
     
