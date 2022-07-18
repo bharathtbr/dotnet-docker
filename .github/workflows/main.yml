@@ -34,33 +34,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }} 
         
       
-        
-      - name: Checkout Target Repository
-        uses: actions/checkout@v3
-        with:
-          repository: bharathtbr/coverage
-          token: ${{ secrets.PAT_TOKEN }} 
-          persist-credentials: false
-          
-      - name: Create release branch
-        run: git checkout -b release/v${{ github.event.inputs.versionName }}     
-      
-      - name: copy file from template to main dev
-        run: |
-            cp "argocd-app-config-main/Templates/deployment.yaml" "argocd-app-config-main/dev/deployment.yaml"
-            
-      - name: Replace image in config
-        uses: datamonsters/replace-action@v2
-        with:
-         files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'  
-         
-      - name: Git commit
-        run: |
-            git add .
-            git commit -m "generated"
-            git push origin release/v${{ github.event.inputs.versionName }}
-            
+                 
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
@@ -86,7 +60,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          commit-message: Update report
+          commit-message: Update report & image
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: release/v${{ github.event.inputs.versionName }}
