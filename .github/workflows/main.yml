@@ -69,7 +69,7 @@ jobs:
           persist-credentials: false
       
       - name: Make changes to pull request
-        run: date +%s > report.txt
+        run: date  > report.txt
 
       - name: Create Pull Request
         id: cpr
