@@ -52,6 +52,18 @@ jobs:
         with:
           repository: bharathtbr/coverage
           token: ${{ secrets.PAT_TOKEN }} 
+      - name: create new branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+         branch: 'test-master'
+         
+      - name: Checkout Target Repository
+        uses: actions/checkout@v3
+        with:
+          repository: bharathtbr/coverage
+          token: ${{ secrets.PAT_TOKEN }} 
           ref: 'test-master'
           
       - name: Replace image in config
