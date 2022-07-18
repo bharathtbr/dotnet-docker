@@ -31,6 +31,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}     
         
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.alpine-x64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}  
+        
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
@@ -39,9 +55,28 @@ jobs:
           
       - name: Create release branch
         run: git checkout -b test-master      
-          
+      
+      - name: copy file from template to main dev
+        run: |
+            cp "argocd-app-config-main/Templates/deployment.yaml" "argocd-app-config-main/dev/deployment.yaml"
+            
       - name: Replace image in config
         uses: datamonsters/replace-action@v2
         with:
          files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'    
+         replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
+         
+      - run: |
+          git add .
+          git commit -m "generated"
+          git push origin test-master
+         
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: update changelog
+          title: Update Changelog
+          body: Update changelog to reflect release changes
+          branch: test-master
+          base: main
+   
