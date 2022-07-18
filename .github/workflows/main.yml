@@ -55,7 +55,7 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }} 
           
       - name: Replace image in config
-        uses: ./.github/actions/replace
+        uses: datamonsters/replace-action@v2
         with:
          files: infrastructure/argocd-app-config-main/dev/deployment.yaml
          replacements: '$IMAGE=bharatht08/apsnetapp6:latest'
