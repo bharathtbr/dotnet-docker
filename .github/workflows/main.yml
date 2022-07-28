@@ -44,7 +44,7 @@ jobs:
           context: ./
           file: ./Dockerfile.alpine-x64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:v6t
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
