@@ -44,7 +44,7 @@ jobs:
           context: ./
           file: ./Dockerfile.alpine-x64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:v6t
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apsnetapp6:v7
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -67,7 +67,7 @@ jobs:
         uses: datamonsters/replace-action@v2
         with:
          files: argocd-app-config-main/dev/deployment.yaml
-         replacements: '$IMAGE=bharatht08/apsnetapp6:v6t'  
+         replacements: '$IMAGE=bharatht08/apsnetapp6:v7'  
 
       - name: Create Pull Request
         id: cpr
